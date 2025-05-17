@@ -8,34 +8,23 @@ export default async function handler(req, res) {
     ]);
 
     // Check if the responses are JSON
-    const checkJsonResponse = (response) => {
-      const contentType = response.headers.get('content-type');
-      if (contentType && contentType.includes('application/json')) {
-        return response.json(); // Return parsed JSON
-      } else {
-        return response.text(); // Return raw text for non-JSON responses
-      }
+   const getStatus = (response) => {
+      const status = response.status; // Get the HTTP status code of the response
+      return status;
     };
 
-    const topstoriesData = await checkJsonResponse(topstories);
-    const anotherApiData = await checkJsonResponse(anotherApiResponse);
+    const topstoriesStatus = getStatus(topstories);
+    const anotherApiStatus = getStatus(anotherApiResponse);
 
-    // If any API returns non-JSON, log and return an error
-    if (typeof topstoriesData === 'string') {
-      console.error('Topstories API did not return JSON:', topstoriesData);
-      return res.status(500).json({ success: false, message: 'Topstories API did not return JSON' });
-    }
+    // Log the status codes for debugging
+    console.log('Topstories API status:', topstoriesStatus);
+    console.log('Another API status:', anotherApiStatus);
 
-    if (typeof anotherApiData === 'string') {
-      console.error('Another API did not return JSON:', anotherApiData);
-      return res.status(500).json({ success: false, message: 'Another API did not return JSON' });
-    }
-
-    // If both responses are JSON, proceed with combining the data
+    // Respond with the status of both APIs
     res.status(200).json({
-      topStoryId: topstoriesData[0], // First API response
-      anotherApiData: anotherApiData, // Second API response
-      fetchedAt: Date.now() // Add a timestamp of when the data was fetched
+      topstoriesStatus: topstoriesStatus, // Status code of the first API
+      anotherApiStatus: anotherApiStatus, // Status code of the second API
+      fetchedAt: Date.now() // Timestamp for when the check was made
     });
 
   } catch (error) {
