@@ -3,10 +3,10 @@ export default async function handler(req, res) {
   try {
     // Fetch both APIs concurrently
     const [topstories, anotherApiResponse] = await Promise.all([
-      fetch('https://puppeteer-render-zx37.onrender.com/'),
+      fetch('https://puppeteer-render.up.railway.app/'),
       fetch('https://ajaib-automation.onrender.com/')
     ]);
-
+// fetch('https://puppeteer-render-zx37.onrender.com/'),
     // Check if the responses are JSON
    const getStatus = (response) => {
       const status = response.status; // Get the HTTP status code of the response
