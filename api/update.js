@@ -3,7 +3,7 @@ export default async function handler(req, res) {
   try {
     // Fetch both APIs concurrently
     const [topstories, anotherApiResponse] = await Promise.all([
-      fetch('https://puppeteer-render.up.railway.app/'),
+      fetch('https://engaging-purely-rabbit.ngrok-free.app/'),
       fetch('https://ajaib-automation.onrender.com/')
     ]);
 // fetch('https://puppeteer-render-zx37.onrender.com/'),
